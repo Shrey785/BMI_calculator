@@ -1,9 +1,11 @@
+#creating a bmi calculator using tkinter
+
 import tkinter as tk
 from tkinter import*
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 import numpy as np
-import openpyxl
+import openpyxl #using openpyxl to connect exel sheets with the program as a database
 
 def validateLogin(bmi):
     excel_file = "bmi.xlsx"
@@ -11,16 +13,15 @@ def validateLogin(bmi):
     update_excel_sheet(excel_file,height,age,weight,bmi,name)
     return True
 
-def collect_user_data():
+def collect_user_data():#using this to collect all the data user enterd to store it in database
     height =  height_entry.get()
     age = Age_entry.get()
     weight = weight_entry.get()
     name = Name_entry.get()
-    # result = result_label.get()
     
     return height,age,weight,name
 
-def update_excel_sheet(file_path, height,age,weight,bmi_index, name):
+def update_excel_sheet(file_path, height,age,weight,bmi_index, name):#used to update every time another user enters
     try:
         workbook = openpyxl.load_workbook(file_path)
         sheet = workbook.active
@@ -45,33 +46,12 @@ def update_excel_sheet(file_path, height,age,weight,bmi_index, name):
     except Exception as e:
         print(f"Error: {e}")
 
-# def update_bmi(target_value, data_to_insert):
-
-#     workbook = openpyxl.load_workbook("bmi.xlsx")
-#     worksheet = workbook.active
-#     column_letter = 'B'
-
-#     found_row = None
-#     print(worksheet[column_letter])
-#     for cell in worksheet[column_letter]:
-#         if cell.value == target_value:
-#             found_row = cell.row
-#             break
-#     for row_index, (name, age) in enumerate(new_data, start=last_row):
-#         sheet[f'A{row_index}'] = name
-#         sheet[f'B{row_index}'] = age
-#     cell = worksheet.cell(row=found_row, column=openpyxl.utils.column_index_from_string('C'))
-#     cell.value = data_to_insert
-#     print(cell, cell.value)
-#     workbook.save('bmi.xlsx')
-#     workbook.close()
-
 ws = Tk()
 ws.title('BMI_CALCULATOR')
 ws.geometry('750x650')
 ws.config(bg='green')
 
-
+#the class calc_bmi is used to calculate the bmi of the user
 def calc_bmi():
     try:
         height = float((height_entry.get()))/100
@@ -99,19 +79,22 @@ def bmi_index(bmi):
         result_label.config(text=f"Your BMI is: {bmi:.2f}, is Obesity")
         # messagebox.showinfo('Obesity')  
 var = IntVar()
-
+# creating the name section to get name
 Name_label = Label(text='Name', font=('Arial', 10, 'bold')).pack(pady=0)
 Name_entry = tk.Entry(ws)
 Name_entry.pack(pady=2)
 
+# creating the age section to get age
 Age_label = Label(text='Age', font=('Arial', 10, 'bold')).pack(pady=0)
 Age_entry = tk.Entry(ws)
 Age_entry.pack(pady=2)
 
+# creating the weight section to get weight
 tk.Label(ws, text="Weight (kg):", font=('Arial', 10, 'bold')).pack(pady=0)
 weight_entry = tk.Entry(ws)
 weight_entry.pack(pady=2)
 
+# creating the hight section to get hight
 tk.Label(ws, text="Height (cm):",font=('Arial', 10, 'bold')).pack(pady=0)
 height_entry = tk.Entry(ws)
 height_entry.pack(pady=2)
@@ -122,7 +105,7 @@ calculate_button.pack(pady=10)
 result_label = tk.Label(ws, text="")
 result_label.pack(pady=10)
 
-# update_bmi(Age_entry.get(), weight_entry.get(), height_entry.get(), bmi_index.get())
+#now using the data , ploting the graph
 
 def plot_graph(weight, height, bmi):
     weight = np.array([20, 40, 60, 80, 100, 120, 140, 160, 180, 200])
